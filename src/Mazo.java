@@ -11,8 +11,8 @@ public class Mazo {
     }
 
     public void llenar(){
-        String [] colores= {"rojo", "naranja", "verde", "amarillo"};
-        String [] especiales={"saltar", "girar", "+2"};
+        String [] colores= {" 🔴", " 🟠", " 🟢", " 🔵"};
+        String [] especiales={" 🚫", " 🔄", "➕2️⃣"};
         for(int i=0; i<4; i++){
             for(int j=0; j<=9 ;j++){
                 Carta cartaNueva= new Carta(colores[i], j, " ");
@@ -22,9 +22,12 @@ public class Mazo {
                 Carta cartaNueva=new Carta(colores[i], 0, especiales[k]);
                 mazoUno.add(cartaNueva);
             }
+            Carta carta = new Carta("⚫", 0, "🌈" );
+            mazoUno.add(carta);
         }
-        for(int i=1; i<4; i++){
-            for(int j=0; j<=9 ;j++){
+
+        for(int i=0; i<4; i++){
+            for(int j=1; j<=9 ;j++){
                 Carta cartaNueva= new Carta(colores[i], j, " ");
                 mazoUno.add(cartaNueva);
             }
@@ -32,6 +35,8 @@ public class Mazo {
                 Carta cartaNueva=new Carta(colores[i], 0, especiales[k]);
                 mazoUno.add(cartaNueva);
             }
+            Carta carta = new Carta("⚫", 0, "🌈+4" );
+            mazoUno.add(carta);
         }
 
     }

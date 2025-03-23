@@ -44,17 +44,17 @@ public class Carta {
 
     public void imprimirCarta(){
         if(!esEspecial) {
-            System.out.println("+-+");
+            System.out.println("+-+-+");
             System.out.println("|" + numero + "|");
             System.out.println("|" + color + "|");
-            System.out.println("| |");
-            System.out.println("+-+");
+            System.out.println("|  |");
+            System.out.println("+-+-+");
         }else{
-            System.out.println("+-+");
-            System.out.println("| |");
-            System.out.println("|" + color + "|");
+            System.out.println("+-+-+");
+            System.out.println("|  |");
+            System.out.println("|" +color+"|");
             System.out.println("|"+funcion+"|");
-            System.out.println("+-+");
+            System.out.println("+-+-+");
         }
     }
 
