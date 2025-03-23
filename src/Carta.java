@@ -7,6 +7,7 @@ public class Carta {
         this.color=color;
         this.numero=numero;
         this.funcion=funcion;
+        //hola
     }
 
     public String getColor(){
