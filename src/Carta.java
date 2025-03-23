@@ -2,12 +2,22 @@ public class Carta {
     private String color;
     private int numero;
     private String funcion;
+    private boolean esEspecial;
 
     public Carta(String color, int numero, String funcion){
         this.color=color;
         this.numero=numero;
         this.funcion=funcion;
-        //hola mundo
+        esEspecial(funcion);
+    }
+
+    public void esEspecial(String funcion){
+        if (funcion.equals(" ")){
+            this.esEspecial=false;
+        }else{
+            this.esEspecial=true;
+        }
+
     }
 
     public String getColor(){
@@ -30,6 +40,26 @@ public class Carta {
 
     public void setFuncion(String funcion){
         this.funcion=funcion;
+    }
+
+    public void imprimirCarta(){
+        if(!esEspecial) {
+            System.out.println("+-+");
+            System.out.println("|" + numero + "|");
+            System.out.println("|" + color + "|");
+            System.out.println("| |");
+            System.out.println("+-+");
+        }else{
+            System.out.println("+-+");
+            System.out.println("| |");
+            System.out.println("|" + color + "|");
+            System.out.println("|"+funcion+"|");
+            System.out.println("+-+");
+        }
+    }
+
+    public String toString(){
+        return "["+ color+ numero+ funcion+ "]";
     }
 
 }
