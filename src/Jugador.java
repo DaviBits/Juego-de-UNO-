@@ -11,6 +11,10 @@ public class Jugador {
         this.contadorDeCartas++;
     }
 
+    public void restarCartas(int numero){
+        this.contadorDeCartas-=numero;
+    }
+
     public int getNumeroCartas(){
         return contadorDeCartas;
     }

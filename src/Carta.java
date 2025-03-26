@@ -20,6 +20,13 @@ public class Carta {
 
     }
 
+    public boolean noTieneValor(){
+        if(esEspecial){
+            return true;
+        }
+        return false;
+    }
+
     public String getColor(){
         return color;
     }

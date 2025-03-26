@@ -5,6 +5,7 @@ public class Main {
 
         //mazoJuego=new Mazo();
         juego = new JuegoUno();
+        juego.jugar();
 
     }
 

@@ -65,4 +65,8 @@ public class Mazo {
         return mazoUno;
     }
 
+    public int getCantidadCartas(){
+        return mazoUno.size();
+    }
+
 }
