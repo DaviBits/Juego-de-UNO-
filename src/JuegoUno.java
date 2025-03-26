@@ -128,11 +128,18 @@ public class JuegoUno {
     public void lanzarJ1(){
         Scanner scan = new Scanner(System.in);
         System.out.println("TURNO DE: "+jugador1.getNombre());
-        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR: *presiona 100 si quieres saltar turno*");
+        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR: *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
+
         System.out.println(cartasJ1);
         int indicedeCartaPuesta= scan.nextInt()-1;
         scan.nextLine();
+        if(indicedeCartaPuesta==-1){
+            return;
+        }
         if(indicedeCartaPuesta==99){
+            tomarCartas(jugadorEnTurno, 1);
+            System.out.println("Tomaste la carta: "+cartasJ1.get(cartasJ1.size()-1));
+            jugador1.sumarCartas(1);
             return;
         }
         if(verificarUltimaCarta(cartasJ1.get(indicedeCartaPuesta))){
@@ -141,7 +148,9 @@ public class JuegoUno {
             esUno=esUno.toLowerCase();
             if(esUno.equals("si")){
                 if(!verificarSiEsUno("J1")){
+                    System.out.println("NO ERA UNO!!");
                     tomarCartas(jugadorEnTurno, 4);
+                    jugador1.sumarCartas(4);
                 }
             }
             cartaEnTablero=cartasJ1.get(indicedeCartaPuesta);
@@ -158,11 +167,18 @@ public class JuegoUno {
     public void lanzarJ2(){
         Scanner scan = new Scanner(System.in);
         System.out.println("TURNO DE: "+jugador2.getNombre());
-        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR: *presiona 100 si quieres saltar turno*");
+        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR: *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
+
         System.out.println(cartasJ2);
         int indicedeCartaPuesta= scan.nextInt()-1;
         scan.nextLine();
+        if(indicedeCartaPuesta==-1){
+            return;
+        }
         if(indicedeCartaPuesta==99){
+            tomarCartas(jugadorEnTurno, 1);
+            System.out.println("Tomaste la carta: "+cartasJ2.get(cartasJ2.size()-1));
+            jugador2.sumarCartas(1);
             return;
         }
         if(verificarUltimaCarta(cartasJ2.get(indicedeCartaPuesta))){
@@ -171,7 +187,9 @@ public class JuegoUno {
            esUno= esUno.toLowerCase();
             if(esUno.equals("si")){
                 if(!verificarSiEsUno("J2")){
+                    System.out.println("NO ERA UNO!!");
                     tomarCartas(jugadorEnTurno, 4);
+                    jugador2.sumarCartas(4);
                 }
             }
             cartaEnTablero=cartasJ2.get(indicedeCartaPuesta);
