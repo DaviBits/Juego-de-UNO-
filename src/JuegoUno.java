@@ -13,11 +13,13 @@ public class JuegoUno {
     private String primerTurno;
     private Carta cartaEnTablero;
     private String jugadorEnTurno;
+    private int masCuatroAcumulados;
 
     public JuegoUno(){
         definirJugadores();
         mazoUno= new Mazo();
         ArrayList <Carta> mazoJuego= new ArrayList<>();
+        masCuatroAcumulados=0;
         mazoUno.mezclarCartas();
         definirMazo();
         definirPrimerTurno();
@@ -103,12 +105,28 @@ public class JuegoUno {
         }
     }
 
+    public Carta seleccionarPrimeraCarta(){
+        Carta cartaIncial;
+        Random rnd = new Random();
+        int indicePrimeraCarta= rnd.nextInt(mazoJuego.size()-1);
+        if(mazoJuego.get(indicePrimeraCarta).saberSiEsEspecial()){
+            seleccionarPrimeraCarta();
+        }
+            cartaIncial=mazoJuego.get(indicePrimeraCarta);
+            mazoJuego.remove(cartaIncial);
+
+        return cartaIncial;
+    }
+
     public void jugar(){
+        /*
         int indicePrimeraCarta;
         Random rnd = new Random();
         indicePrimeraCarta= rnd.nextInt(mazoJuego.size()-1);
-        cartaEnTablero= mazoJuego.get(indicePrimeraCarta);
-        mazoJuego.remove(indicePrimeraCarta);
+
+         */
+        cartaEnTablero=seleccionarPrimeraCarta();
+
         do{
             if(jugador1.getNumeroCartas()>0&&jugador2.getNumeroCartas()>0){
                 System.out.println("ULTIMA CARTA PUESTA: ");
@@ -127,12 +145,47 @@ public class JuegoUno {
 
     public void lanzarJ1(){
         Scanner scan = new Scanner(System.in);
+        if(cartaEnTablero.getFuncion().equals("🌈4️⃣")){
+            System.out.println("La ultima carta em el tablero es un +4");
+            if(verificarMasCuatro(jugadorEnTurno)){
+                System.out.println("Tienes un +4, quieres poner o comer(poner/comer)?");
+                String desicion = scan.nextLine();
+                desicion= desicion.toLowerCase();
+                if(desicion.equals("poner")){
+                    for(int i=0; i<cartasJ1.size(); i++){
+                      if(cartasJ1.get(i).getFuncion().equals("🌈4️⃣")){
+                          if(this.masCuatroAcumulados==0){
+                              this.masCuatroAcumulados+=8;
+                          }else{
+                              this.masCuatroAcumulados+=4;
+                          }
+                         cartasJ1.remove(i);
+                      }
+                    }
+                } else if (desicion.equals("comer")) {
+                    if(this.masCuatroAcumulados==0){
+                        this.masCuatroAcumulados+=4;
+                    }
+
+                    tomarCartas(jugadorEnTurno, masCuatroAcumulados);
+                    this.masCuatroAcumulados=0;
+                    jugador1.sumarCartas(masCuatroAcumulados);
+                }
+
+            }
+
+        }
+        int numeroCartasJ1= cartasJ1.size();
         System.out.println("TURNO DE: "+jugador1.getNombre());
-        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR: *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
+        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR (1-"+numeroCartasJ1+"): *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
 
         System.out.println(cartasJ1);
         int indicedeCartaPuesta= scan.nextInt()-1;
         scan.nextLine();
+        if(indicedeCartaPuesta>=cartasJ2.size()&&indicedeCartaPuesta<100){
+            System.out.println("no tienes tantas cartas");
+            lanzarJ1();
+        }
         if(indicedeCartaPuesta==-1){
             return;
         }
@@ -166,12 +219,48 @@ public class JuegoUno {
 
     public void lanzarJ2(){
         Scanner scan = new Scanner(System.in);
+        if(cartaEnTablero.getFuncion().equals("🌈4️⃣")){
+            System.out.println("La ultima carta em el tablero es un +4");
+            if(verificarMasCuatro(jugadorEnTurno)){
+                System.out.println("Tienes un +4, quieres poner o comer(poner/comer)?");
+                String desicion = scan.nextLine();
+                desicion= desicion.toLowerCase();
+                if(desicion.equals("poner")){
+                    for(int i=0; i<cartasJ2.size(); i++){
+                        if(cartasJ2.get(i).getFuncion().equals("🌈4️⃣")){
+                            if(this.masCuatroAcumulados==0){
+                                this.masCuatroAcumulados+=8;
+                            }else{
+                                this.masCuatroAcumulados+=4;
+                            }
+                            cartasJ2.remove(i);
+                        }
+                    }
+                } else if (desicion.equals("comer")) {
+                    if(this.masCuatroAcumulados==0){
+                        this.masCuatroAcumulados+=4;
+                    }
+
+                    tomarCartas(jugadorEnTurno, masCuatroAcumulados);
+                    this.masCuatroAcumulados=0;
+                    jugador2.sumarCartas(masCuatroAcumulados);
+                }
+
+            }
+
+        }
+        int numeroCartasJ2= cartasJ2.size();
+
         System.out.println("TURNO DE: "+jugador2.getNombre());
-        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR: *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
+        System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR(1-"+numeroCartasJ2+"): *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
 
         System.out.println(cartasJ2);
         int indicedeCartaPuesta= scan.nextInt()-1;
         scan.nextLine();
+        if(indicedeCartaPuesta>=cartasJ2.size()&&indicedeCartaPuesta<100){
+            System.out.println("no tienes tantas cartas");
+            lanzarJ2();
+        }
         if(indicedeCartaPuesta==-1){
             return;
         }
@@ -220,10 +309,12 @@ public class JuegoUno {
     public boolean verificarSiEsUno(String jugadorEnTurno) {
         if (jugadorEnTurno.equals("J1")) {
             if (jugador1.getNumeroCartas() == 1) {
+                System.out.println("UNO!!!");
                 return true;
             }
         } else if (jugadorEnTurno.equals("J2")) {
             if (jugador2.getNumeroCartas() == 1) {
+                System.out.println("UNO!!!");
                 return true;
             }
         }
@@ -233,14 +324,32 @@ public class JuegoUno {
     public boolean verificarUltimaCarta(Carta cartaPuesta){
         if(cartaPuesta.getNumero()==cartaEnTablero.getNumero()){
             return true;
-        }else if(cartaPuesta.getColor()==cartaEnTablero.getColor()){
+        }else if(cartaPuesta.getColor().equals(cartaEnTablero.getColor())){
             return true;
-        }else if(cartaPuesta.noTieneValor()&&cartaEnTablero.noTieneValor()&&cartaPuesta.getFuncion()==cartaEnTablero.getFuncion()){
+        }else if(cartaPuesta.noTieneValor()&&cartaEnTablero.noTieneValor()&&cartaPuesta.getFuncion().equals(cartaEnTablero.getFuncion())){
             return true;
         }
         return false;
     }
 
-
+    public boolean verificarMasCuatro(String jugador){
+        switch (jugador){
+            case "J1":
+                for(int i=0; i<cartasJ1.size(); i++){
+                    if(cartasJ1.get(i).getFuncion().equals("🌈4️⃣")){
+                        return true;
+                    }
+                }
+                break;
+            case "J2":
+                for(int i=0; i<cartasJ2.size(); i++){
+                    if(cartasJ2.get(i).getFuncion().equals("🌈4️⃣")){
+                        return true;
+                    }
+                }
+                break;
+        }
+        return false;
+    }
 
 }

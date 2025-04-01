@@ -26,6 +26,12 @@ public class Carta {
         }
         return false;
     }
+    public boolean saberSiEsEspecial(){
+        if(esEspecial){
+            return true;
+        }
+        return false;
+    }
 
     public String getColor(){
         return color;
