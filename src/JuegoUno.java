@@ -37,8 +37,8 @@ public class JuegoUno {
 
     public void definirMazo(){
         mazoJuego= mazoUno.getMazoUno();
-        System.out.println("Cartas en el mazo:");
-        System.out.println(mazoJuego);
+       // System.out.println("Cartas en el mazo:");
+        //System.out.println(mazoJuego);
     }
 
     public void definirJugadores(){
@@ -119,13 +119,17 @@ public class JuegoUno {
     }
 
     public void jugar(){
-        /*
+
         int indicePrimeraCarta;
         Random rnd = new Random();
         indicePrimeraCarta= rnd.nextInt(mazoJuego.size()-1);
 
-         */
-        cartaEnTablero=seleccionarPrimeraCarta();
+
+        cartaEnTablero=mazoJuego.get(indicePrimeraCarta);
+        if(cartaEnTablero.getFuncion()!=" "){
+            jugar();
+            return;
+        }
 
         do{
             if(jugador1.getNumeroCartas()>0&&jugador2.getNumeroCartas()>0){
@@ -141,6 +145,14 @@ public class JuegoUno {
                 lanzarJ2();
             }
         }while (jugador1.getNumeroCartas()>0&&jugador2.getNumeroCartas()>0);
+        System.out.println("JUEGO ACABADO!");
+        System.out.println("EL JUGADOR "+jugador1.getNombre()+" TIENE "+jugador1.getNumeroCartas()+" CARTAS");
+        System.out.println("EL JUGADOR "+jugador2.getNombre()+" TIENE "+jugador2.getNumeroCartas()+" CARTAS");
+        if(jugador1.getNumeroCartas()==0){
+            System.out.println("EL GANADOR ES "+jugador1.getNombre());
+        }else{
+            System.out.println("EL GANADOR ES "+jugador2.getNombre());
+        }
     }
 
     public void lanzarJ1(){
@@ -210,17 +222,11 @@ public class JuegoUno {
                     jugador1.sumarCartas(4);
                 }
             }
-            if(cartasJ1.get(indicedeCartaPuesta).getFuncion().equals(" 🌈")||cartasJ1.get(indicedeCartaPuesta).getFuncion().equals("🌈4️⃣")){
-                System.out.println("CAMBIO DE COLOR!!");
-                System.out.println("ingrese el color que quiere: rojo, naranja, verde o azul");
-                String color = scan.nextLine();
-                color=color.toLowerCase();
-                cambiarColorCartaTablero(color);
-            }
 
             if(cartasJ1.get(indicedeCartaPuesta).getFuncion().equals(" 2️⃣")){
                 System.out.println("EL JUGADOR 2 TOMA 2 CARTAS!!");
                 tomarCartas("J2", 2);
+                jugador2.sumarCartas(2);
             }
             cartaEnTablero=cartasJ1.get(indicedeCartaPuesta);
             cartasJ1.remove(indicedeCartaPuesta);
@@ -229,6 +235,14 @@ public class JuegoUno {
                 System.out.println("SE SALTO EL TURNO DE "+jugador2.getNombre()+", "+jugador1.getNombre()+" PONE DE NUEVO");
                 lanzarJ1();
             }
+            if(cartaEnTablero.getFuncion().equals(" 🌈")||cartaEnTablero.getFuncion().equals("🌈4️⃣")){
+                System.out.println("CAMBIO DE COLOR!!");
+                System.out.println("ingrese el color que quiere: rojo, naranja, verde o azul");
+                String color = scan.nextLine();
+                color=color.toLowerCase();
+                cambiarColorCartaTablero(color);
+            }
+
             if(cartaEnTablero.getFuncion().equals(" 🔄")){
                 System.out.println("GIRO DE TURNO");
 
@@ -311,17 +325,11 @@ public class JuegoUno {
                 }
             }
 
-            if(cartasJ2.get(indicedeCartaPuesta).getFuncion().equals(" 🌈")||cartasJ2.get(indicedeCartaPuesta).getFuncion().equals("🌈4️⃣")){
-                System.out.println("CAMBIO DE COLOR!!");
-                System.out.println("ingrese el color que quiere: rojo, naranja, verde o azul");
-                String color = scan.nextLine();
-                color=color.toLowerCase();
-                cambiarColorCartaTablero(color);
-            }
 
             if(cartasJ2.get(indicedeCartaPuesta).getFuncion().equals(" 2️⃣")){
                 System.out.println("EL JUGADOR 1 TOMA 2 CARTAS!!");
                 tomarCartas("J1", 2);
+                jugador1.sumarCartas(2);
             }
             cartaEnTablero=cartasJ2.get(indicedeCartaPuesta);
             cartasJ2.remove(indicedeCartaPuesta);
@@ -333,6 +341,13 @@ public class JuegoUno {
             if(cartaEnTablero.getFuncion().equals(" 🔄")){
                 System.out.println("GIRO DE TURNO");
 
+            }
+            if(cartaEnTablero.getFuncion().equals(" 🌈")||cartaEnTablero.getFuncion().equals("🌈4️⃣")){
+                System.out.println("CAMBIO DE COLOR!!");
+                System.out.println("ingrese el color que quiere: rojo, naranja, verde o azul");
+                String color = scan.nextLine();
+                color=color.toLowerCase();
+                cambiarColorCartaTablero(color);
             }
         }else{
             System.out.println("ESA CARTA NO SE PUEDE PONER ");
@@ -367,6 +382,9 @@ public class JuegoUno {
     }
 
     public void tomarCartas(String JugadorEnTurno, int NumeroDeCartas){
+        if(mazoJuego.size()==0){
+            definirMazo();
+        }
         if(jugadorEnTurno.equals("J1")){
             for(int i=0; i<NumeroDeCartas; i++){
                 cartasJ1.add(mazoJuego.get(0));

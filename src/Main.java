@@ -11,9 +11,9 @@ public class Main {
     /*
     terminar especiales cartas
     +4//pendiente de probar
-    +2//pendiente de prueba
-    reversa
-    saltar turno//pendiente de prueba
+    +2//pendiente de prueba//funnciona
+    reversa//funciona
+    saltar turno//pendiente de prueba//funciona
     cambiar color//pendiente de prueba// corregir
      */
 
