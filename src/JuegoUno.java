@@ -159,6 +159,11 @@ public class JuegoUno {
                           }else{
                               this.masCuatroAcumulados+=4;
                           }
+                          System.out.println("CAMBIO DE COLOR!!!");
+                          System.out.println("Escoja un color: rojo, naranja, verde o azul: ");
+                          String color= scan.nextLine();
+                          color=color.toLowerCase();
+                          cambiarColorCartaTablero(color);
                          cartasJ1.remove(i);
                       }
                     }
@@ -171,10 +176,9 @@ public class JuegoUno {
                     this.masCuatroAcumulados=0;
                     jugador1.sumarCartas(masCuatroAcumulados);
                 }
-
             }
-
         }
+
         int numeroCartasJ1= cartasJ1.size();
         System.out.println("TURNO DE: "+jugador1.getNombre());
         System.out.println("INGRESE QUE CARTA DE SU MASO DESEA TIRAR (1-"+numeroCartasJ1+"): *presiona 0 SI QUIERES SALTAR TURNO O 100 SI QUIERES ROBAR CARTA*");
@@ -182,7 +186,7 @@ public class JuegoUno {
         System.out.println(cartasJ1);
         int indicedeCartaPuesta= scan.nextInt()-1;
         scan.nextLine();
-        if(indicedeCartaPuesta>=cartasJ2.size()&&indicedeCartaPuesta<100){
+        if(indicedeCartaPuesta>=cartasJ1.size()&&indicedeCartaPuesta<99){
             System.out.println("no tienes tantas cartas");
             lanzarJ1();
         }
@@ -206,9 +210,29 @@ public class JuegoUno {
                     jugador1.sumarCartas(4);
                 }
             }
+            if(cartasJ1.get(indicedeCartaPuesta).getFuncion().equals(" 🌈")||cartasJ1.get(indicedeCartaPuesta).getFuncion().equals("🌈4️⃣")){
+                System.out.println("CAMBIO DE COLOR!!");
+                System.out.println("ingrese el color que quiere: rojo, naranja, verde o azul");
+                String color = scan.nextLine();
+                color=color.toLowerCase();
+                cambiarColorCartaTablero(color);
+            }
+
+            if(cartasJ1.get(indicedeCartaPuesta).getFuncion().equals(" 2️⃣")){
+                System.out.println("EL JUGADOR 2 TOMA 2 CARTAS!!");
+                tomarCartas("J2", 2);
+            }
             cartaEnTablero=cartasJ1.get(indicedeCartaPuesta);
             cartasJ1.remove(indicedeCartaPuesta);
             jugador1.restarCartas(1);
+            if(cartaEnTablero.getFuncion().equals(" 🚫")){
+                System.out.println("SE SALTO EL TURNO DE "+jugador2.getNombre()+", "+jugador1.getNombre()+" PONE DE NUEVO");
+                lanzarJ1();
+            }
+            if(cartaEnTablero.getFuncion().equals(" 🔄")){
+                System.out.println("GIRO DE TURNO");
+
+            }
         }else{
             System.out.println("ESA CARTA NO SE PUEDE PONER ");
             lanzarJ1();
@@ -233,6 +257,11 @@ public class JuegoUno {
                             }else{
                                 this.masCuatroAcumulados+=4;
                             }
+                            System.out.println("CAMBIO DE COLOR!!!");
+                            System.out.println("Escoja un color: rojo, naranja, verde o azul: ");
+                            String color= scan.nextLine();
+                            color=color.toLowerCase();
+                            cambiarColorCartaTablero(color);
                             cartasJ2.remove(i);
                         }
                     }
@@ -257,7 +286,7 @@ public class JuegoUno {
         System.out.println(cartasJ2);
         int indicedeCartaPuesta= scan.nextInt()-1;
         scan.nextLine();
-        if(indicedeCartaPuesta>=cartasJ2.size()&&indicedeCartaPuesta<100){
+        if(indicedeCartaPuesta>=cartasJ2.size()&&indicedeCartaPuesta<99){
             System.out.println("no tienes tantas cartas");
             lanzarJ2();
         }
@@ -281,15 +310,60 @@ public class JuegoUno {
                     jugador2.sumarCartas(4);
                 }
             }
+
+            if(cartasJ2.get(indicedeCartaPuesta).getFuncion().equals(" 🌈")||cartasJ2.get(indicedeCartaPuesta).getFuncion().equals("🌈4️⃣")){
+                System.out.println("CAMBIO DE COLOR!!");
+                System.out.println("ingrese el color que quiere: rojo, naranja, verde o azul");
+                String color = scan.nextLine();
+                color=color.toLowerCase();
+                cambiarColorCartaTablero(color);
+            }
+
+            if(cartasJ2.get(indicedeCartaPuesta).getFuncion().equals(" 2️⃣")){
+                System.out.println("EL JUGADOR 1 TOMA 2 CARTAS!!");
+                tomarCartas("J1", 2);
+            }
             cartaEnTablero=cartasJ2.get(indicedeCartaPuesta);
             cartasJ2.remove(indicedeCartaPuesta);
             jugador2.restarCartas(1);
+            if(cartaEnTablero.getFuncion().equals(" 🚫")){
+                System.out.println("SE SALTO EL TURNO DE "+jugador1.getNombre()+", "+jugador2.getNombre()+" PONE DE NUEVO");
+                lanzarJ2();
+            }
+            if(cartaEnTablero.getFuncion().equals(" 🔄")){
+                System.out.println("GIRO DE TURNO");
+
+            }
         }else{
             System.out.println("ESA CARTA NO SE PUEDE PONER ");
             lanzarJ2();
         }
 
        // scan.close();
+    }
+
+    public void cambiarColorCartaTablero(String color){
+        Scanner scan = new Scanner(System.in);
+        switch (color){
+            case "rojo":
+                cartaEnTablero.setColor(" 🔴");
+                break;
+            case "naranja":
+                cartaEnTablero.setColor(" 🟠");
+                break;
+            case "verde":
+                cartaEnTablero.setColor(" 🟢");
+                break;
+            case "azul":
+                cartaEnTablero.setColor(" 🔵");
+                break;
+            default:
+                System.out.println("COLOR INVALIDO!!!");
+                System.out.println("Escoja un color: rojo, naranja, verde o azul: ");
+                String colorCarta= scan. nextLine();
+                cambiarColorCartaTablero(colorCarta);
+                break;
+        }
     }
 
     public void tomarCartas(String JugadorEnTurno, int NumeroDeCartas){
@@ -327,6 +401,8 @@ public class JuegoUno {
         }else if(cartaPuesta.getColor().equals(cartaEnTablero.getColor())){
             return true;
         }else if(cartaPuesta.noTieneValor()&&cartaEnTablero.noTieneValor()&&cartaPuesta.getFuncion().equals(cartaEnTablero.getFuncion())){
+            return true;
+        }else if(cartaPuesta.getColor().equals(" ⚫")){
             return true;
         }
         return false;

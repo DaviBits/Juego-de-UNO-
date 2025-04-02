@@ -8,6 +8,14 @@ public class Main {
         juego.jugar();
 
     }
+    /*
+    terminar especiales cartas
+    +4//pendiente de probar
+    +2//pendiente de prueba
+    reversa
+    saltar turno//pendiente de prueba
+    cambiar color//pendiente de prueba// corregir
+     */
 
 
 }
